@@ -13,14 +13,16 @@ permissions:
 jobs:
   verify:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v5
-      - name: Set up Lean
-        uses: leanprover/lean-action@v1
-        with:
-          auto-config: false
-          use-github-cache: false
+
+      - name: Install elan
+        run: |
+          curl https://elan.lean-lang.org/elan-init.sh -sSf | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+
       - name: Verify Lean file
         run: |
           lean --version
