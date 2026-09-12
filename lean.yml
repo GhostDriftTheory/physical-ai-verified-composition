@@ -1,0 +1,27 @@
+name: Lean verification
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+      - name: Set up Lean
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          use-github-cache: false
+      - name: Verify Lean file
+        run: |
+          lean --version
+          lean PhysicalAIPublicComposition.lean
